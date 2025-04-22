@@ -65,77 +65,64 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        boolean requireUsePerm = getConfig().getBoolean("permissions.require-use-permission", true);
+    
+        // Handle "reload" command
+        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+            if (sender.hasPermission("lightrtp.admin") || !requireUsePerm) {
+                reloadConfig();
+                if (sender instanceof Player player) {
+                    loadConfigValues(player);
+                    player.sendMessage("§a[LightRTP] Config reloaded~");
+                } else {
+                    sender.sendMessage("[LightRTP] Config reloaded~");
+                }
+            } else {
+                sender.sendMessage("§cYou don't have permission to this command!");
+            }
+            return true;
+        }
+    
+        // Only players can teleport!
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("Only players can use this command!");
             return true;
         }
-
-        Player player = (Player) sender;
-
-        // Load world-specific config values
-        loadConfigValues(player);
-
-        boolean requireUsePerm = getConfig().getBoolean("permissions.require-use-permission", true);
-
-        // Reload command
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-            if (requireUsePerm && !player.hasPermission("lightrtp.use")) {
-                reloadConfig();
-                loadConfigValues(player);  // Reload values after config reload
-                player.sendMessage("§a[LightRTP] Config reloaded~");
-            } else {
-                player.sendMessage("§cYou don't have permission to this command!");
-            }
-            return true;
-        }
-
-        // Teleport command
-        if (!player.hasPermission("lightrtp.use")) {
+    
+        if (requireUsePerm && !player.hasPermission("lightrtp.use")) {
             player.sendMessage("§cYou don't have permission to teleport!");
             return true;
         }
-
-        // Admin command OwO
-        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-            if (player.hasPermission("lightrtp.admin")) {
-                reloadConfig();
-                loadConfigValues(player);  // Reload values after config reload
-                player.sendMessage("§a[LightRTP] Config reloaded~");
-            } else {
-                player.sendMessage("§cYou don't have permission to this command!");
-            }
-            return true;
-        }
-        
-
+    
+        loadConfigValues(player);
+    
         long now = System.currentTimeMillis();
         long lastUsed = cooldownMap.getOrDefault(player.getUniqueId(), 0L);
         long waitTime = (cooldownSeconds * 1000L) - (now - lastUsed);
-
+    
         if (waitTime > 0) {
             long secondsLeft = waitTime / 1000;
             player.sendMessage("§cYou have to wait for §e" + secondsLeft + " seconds §cbefore using this command again!");
             return true;
         }
-
-        // Run the location search asynchronously
+    
+        // Run teleport async
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             Location safeLoc = getSafeLocation(player.getWorld(), new Random());
             if (safeLoc != null) {
-                // Schedule the teleportation back on the main thread
                 Bukkit.getScheduler().runTask(this, () -> {
                     player.teleport(safeLoc);
                     player.sendMessage("§bYou have been teleported to a random location!");
                     cooldownMap.put(player.getUniqueId(), now);
                 });
             } else {
-                // Notify the player on the main thread if no location is found
                 Bukkit.getScheduler().runTask(this, () -> {
-                    player.sendMessage("§cFailed to find safe location at " + maxTries + " tries...");
+                    player.sendMessage("§cFailed to find safe location after " + maxTries + " tries...");
                 });
             }
         });
-
+    
         return true;
     }
+    
 }
