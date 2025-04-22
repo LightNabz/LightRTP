@@ -1,9 +1,23 @@
+# Should the plugin check permissions before teleporting?
+# If true, only players with the `lightrtp.use` permission can use /rtp
+# If false, all players can use it without permission
+permissions:
+  require-use-permission: true
+
+# Per-world settings
+# Change or add 'world' to your world name, e.g., 'world', 'world_nether', etc.
 world:
   teleport:
     random:
+      # Minimum distance from the center point (centerX, centerZ)
       minRange: 100
+      # Maximum distance from the center point
       maxRange: 1000
+      # X coordinate of the teleportation center
       centerX: 0
+      # Z coordinate of the teleportation center
       centerZ: 0
+      # How many times the plugin will try to find a safe location before failing
       maxTries: 10
+      # Cooldown in seconds between teleports
       cooldownSeconds: 30

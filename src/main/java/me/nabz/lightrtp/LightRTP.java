@@ -75,9 +75,11 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
         // Load world-specific config values
         loadConfigValues(player);
 
+        boolean requireUsePerm = getConfig().getBoolean("permissions.require-use-permission", true);
+
         // Reload command
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-            if (player.hasPermission("lightrtp.reload")) {
+            if (requireUsePerm && !player.hasPermission("lightrtp.use")) {
                 reloadConfig();
                 loadConfigValues(player);  // Reload values after config reload
                 player.sendMessage("§a[LightRTP] Config reloaded~");
@@ -88,7 +90,7 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
         }
 
         // Teleport command
-        if (!player.hasPermission("lightrtp.teleport")) {
+        if (!player.hasPermission("lightrtp.use")) {
             player.sendMessage("§cYou don't have permission to teleport!");
             return true;
         }
