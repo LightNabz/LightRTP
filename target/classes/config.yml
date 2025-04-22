@@ -1,9 +1,0 @@
-world:
-  teleport:
-    random:
-      minRange: 100
-      maxRange: 1000
-      centerX: 0
-      centerZ: 0
-      maxTries: 10
-      cooldownSeconds: 30
