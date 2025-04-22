@@ -105,14 +105,24 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
             return true;
         }
 
-        Location safeLoc = getSafeLocation(player.getWorld(), new Random());
-        if (safeLoc != null) {
-            player.teleport(safeLoc);
-            player.sendMessage("§bYou have been teleported to a random location!");
-            cooldownMap.put(player.getUniqueId(), now);
-        } else {
-            player.sendMessage("§cFailed to find safe location at " + maxTries + " tries...");
-        }
+        // Run the location search asynchronously
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            Location safeLoc = getSafeLocation(player.getWorld(), new Random());
+            if (safeLoc != null) {
+                // Schedule the teleportation back on the main thread
+                Bukkit.getScheduler().runTask(this, () -> {
+                    player.teleport(safeLoc);
+                    player.sendMessage("§bYou have been teleported to a random location!");
+                    cooldownMap.put(player.getUniqueId(), now);
+                });
+            } else {
+                // Notify the player on the main thread if no location is found
+                Bukkit.getScheduler().runTask(this, () -> {
+                    player.sendMessage("§cFailed to find safe location at " + maxTries + " tries...");
+                });
+            }
+        });
+
         return true;
     }
 }
