@@ -1,0 +1,10 @@
+name: LightRTP
+version: 1.2
+main: me.nabz.lightrtp.LightRTP
+api-version: 1.20
+description: Super Lightweight Random Teleport
+commands:
+  ltp:
+    description: Random Teleport to safe location
+    usage: /ltp [reload]
+    aliases: [lightrtp]
