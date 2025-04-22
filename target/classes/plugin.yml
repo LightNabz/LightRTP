@@ -7,4 +7,4 @@ commands:
   ltp:
     description: Random Teleport to safe location
     usage: /ltp [reload]
-    aliases: [lightrtp]
+    aliases: [lightrtp, rtp, tpr]
