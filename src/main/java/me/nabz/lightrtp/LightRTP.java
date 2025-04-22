@@ -95,6 +95,19 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
             return true;
         }
 
+        // Admin command OwO
+        if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+            if (player.hasPermission("lightrtp.admin")) {
+                reloadConfig();
+                loadConfigValues(player);  // Reload values after config reload
+                player.sendMessage("§a[LightRTP] Config reloaded~");
+            } else {
+                player.sendMessage("§cYou don't have permission to this command!");
+            }
+            return true;
+        }
+        
+
         long now = System.currentTimeMillis();
         long lastUsed = cooldownMap.getOrDefault(player.getUniqueId(), 0L);
         long waitTime = (cooldownSeconds * 1000L) - (now - lastUsed);
