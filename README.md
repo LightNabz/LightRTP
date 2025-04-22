@@ -60,3 +60,29 @@ world:
             maxTries: 10         # Number of attempts to find a safe location
             cooldownSeconds: 30  # Cooldown in seconds between teleportations
 ```
+## Building/Compiling
+
+To build the LightRTP plugin from source, follow these steps:
+
+1. **Clone the Repository**  
+    Clone the LightRTP repository to your local machine:
+    ```bash
+    git clone https://github.com/Lightnabz/LightRTP.git
+    cd LightRTP
+    ```
+
+2. **Ensure Prerequisites**  
+    Make sure you have the following installed:
+    - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-downloads.html) (version 21 or higher)
+    - [Maven](https://maven.apache.org/)
+
+3. **Build the Plugin**  
+    Use Maven to compile the plugin and package it into a `.jar` file:
+    ```bash
+    mvn clean package
+    ```
+
+4. **Locate the Output**  
+    After the build process completes, the `.jar` file will be located in the `target` directory.
+
+You can now use the generated `.jar` file as described in the [Installation](#installation) section.
