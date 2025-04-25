@@ -1,5 +1,5 @@
 # Should the plugin check permissions before teleporting?
-# If true, only players with the `lightrtp.use` permission can use /rtp
+# If true, only players with the `feathertp.use` permission can use /rtp
 # If false, all players can use it without permission
 permissions:
   require-use-permission: true

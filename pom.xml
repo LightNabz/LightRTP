@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.nabz</groupId>
-    <artifactId>LightRTP</artifactId>
+    <artifactId>FeatherTP</artifactId>
     <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>LightRTP</name>
+    <name>FeatherTP</name>
     <description>Minimalistic and safe random teleport plugin for Paper</description>
-    <url>https://github.com/sharky/LightRTP</url>
+    <url>https://github.com/sharky/FeatherTP</url>
 
     <properties>
         <paper.version>1.20.4-R0.1-SNAPSHOT</paper.version>
@@ -59,7 +59,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>me.nabz.lightrtp.LightRTP</mainClass>
+                            <mainClass>me.nabz.feathertp.FeatherTP</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

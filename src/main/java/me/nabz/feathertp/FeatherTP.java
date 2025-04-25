@@ -1,4 +1,4 @@
-package me.nabz.lightrtp;
+package me.nabz.feathertp;
 
 import org.bukkit.*;
 import org.bukkit.command.*;
@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-public class LightRTP extends JavaPlugin implements CommandExecutor {
+public class FeatherTP extends JavaPlugin implements CommandExecutor {
 
     private int minRange, maxRange, centerX, centerZ, maxTries, cooldownSeconds;
     private final Map<UUID, Long> cooldownMap = new HashMap<>();
@@ -17,7 +17,7 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
     public void onEnable() {
         saveDefaultConfig();
         getCommand("ltp").setExecutor(this);
-        getLogger().info("LightRTP loaded successfully~ OwO");
+        getLogger().info("FeatherTP loaded successfully~ OwO");
     }
 
     private void loadConfigValues(Player player) {
@@ -69,13 +69,13 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
     
         // Handle "reload" command
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
-            if (sender.hasPermission("lightrtp.admin") || !requireUsePerm) {
+            if (sender.hasPermission("feathertp.admin") || !requireUsePerm) {
                 reloadConfig();
                 if (sender instanceof Player player) {
                     loadConfigValues(player);
-                    player.sendMessage("§a[LightRTP] Config reloaded~");
+                    player.sendMessage("§a[FeatherTP] Config reloaded~");
                 } else {
-                    sender.sendMessage("[LightRTP] Config reloaded~");
+                    sender.sendMessage("[FeatherTP] Config reloaded~");
                 }
             } else {
                 sender.sendMessage("§cYou don't have permission to this command!");
@@ -89,7 +89,7 @@ public class LightRTP extends JavaPlugin implements CommandExecutor {
             return true;
         }
     
-        if (requireUsePerm && !player.hasPermission("lightrtp.use")) {
+        if (requireUsePerm && !player.hasPermission("feathertp.use")) {
             player.sendMessage("§cYou don't have permission to teleport!");
             return true;
         }
